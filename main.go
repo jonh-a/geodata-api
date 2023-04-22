@@ -41,7 +41,7 @@ type FeatureBrief struct {
 }
 
 func readGeojson(detail string) (GeoJson, error) {
-	file, err := os.Open(fmt.Sprintf("%s.geojson", detail))
+	file, err := os.Open(fmt.Sprintf("geojson/%s.geojson", detail))
 	if err != nil {
 		fmt.Println(err)
 		return GeoJson{}, err
