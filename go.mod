@@ -1,4 +1,4 @@
-module geojson
+module geojson-api
 
 go 1.18
 
