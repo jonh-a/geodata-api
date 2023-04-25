@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/russross/blackfriday/v2"
 )
 
 type Feature struct {
@@ -60,10 +61,6 @@ func readGeojson(detail string) (GeoJson, error) {
 	return data, nil
 }
 
-func health(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, gin.H{"status": "OK"})
-}
-
 func getCountries(c *gin.Context) {
 	geojson, err := readGeojson("10m")
 
@@ -110,9 +107,35 @@ func getCountry(c *gin.Context) {
 	c.IndentedJSON(http.StatusNotFound, gin.H{"error": "Not found"})
 }
 
+func root(c *gin.Context) {
+	file, err := os.Open("README.md")
+	if err != nil {
+		c.IndentedJSON(http.StatusOK, gin.H{"readme": "https://raw.githubusercontent.com/jonh-a/geojson-api/main/README.md"})
+		return
+	}
+
+	defer file.Close()
+
+	bytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		c.IndentedJSON(http.StatusOK, gin.H{"readme": "https://raw.githubusercontent.com/jonh-a/geojson-api/main/README.md"})
+		return
+	}
+
+	html := blackfriday.Run(bytes)
+
+	c.Header("Content-Type", "text/html")
+	c.Writer.Write(html)
+}
+
+func health(c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, gin.H{"status": "OK"})
+}
+
 func main() {
 	router := gin.Default()
 
+	router.GET("/", root)
 	router.GET("/health", health)
 	router.GET("/countries", getCountries)
 	router.GET("/countries/:name", getCountry)
