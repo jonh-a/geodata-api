@@ -62,7 +62,7 @@ func readGeojson(detail string) (GeoJson, error) {
 }
 
 func getCountries(c *gin.Context) {
-	geojson, err := readGeojson("110m")
+	geojson, err := readGeojson("10m")
 
 	if err != nil {
 		c.IndentedJSON(http.StatusServiceUnavailable, gin.H{"error": "Failed to read geoJSON"})
