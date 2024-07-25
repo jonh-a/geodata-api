@@ -1,5 +1,8 @@
 # Geodata-API
 
+## Deprecated
+This has been deprecated and moved to the [coordinates-api project](https://github.com/jonh-a/coordinates-api).
+
 Returns geojson for a given country's borders.
 
 The data is sourced from [natural-earth-vector](https://github.com/nvkelso/natural-earth-vector). The specific geojson files can be found here:

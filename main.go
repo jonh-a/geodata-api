@@ -108,9 +108,11 @@ func getCountry(c *gin.Context) {
 }
 
 func root(c *gin.Context) {
+	readme := gin.H{"readme": "https://raw.githubusercontent.com/jonh-a/geojson-api/main/README.md"}
+
 	file, err := os.Open("README.md")
 	if err != nil {
-		c.IndentedJSON(http.StatusOK, gin.H{"readme": "https://raw.githubusercontent.com/jonh-a/geojson-api/main/README.md"})
+		c.IndentedJSON(http.StatusOK, readme)
 		return
 	}
 
@@ -118,7 +120,7 @@ func root(c *gin.Context) {
 
 	bytes, err := ioutil.ReadAll(file)
 	if err != nil {
-		c.IndentedJSON(http.StatusOK, gin.H{"readme": "https://raw.githubusercontent.com/jonh-a/geojson-api/main/README.md"})
+		c.IndentedJSON(http.StatusOK, readme)
 		return
 	}
 
